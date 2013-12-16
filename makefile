@@ -2,6 +2,7 @@ CXX = g++
 CXXFLAGS = -ggdb -O0
 LDFLAGS = 
 LDLIBS = 
+CXX_FILES = $(wildcard *.cc)
 
 
 all : static-font
