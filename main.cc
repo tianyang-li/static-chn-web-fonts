@@ -63,8 +63,10 @@ int main(int argc, char **argv) {
     error = FT_New_Face(library, font_file_name, 0, &face);
     if (error == FT_Err_Unknown_File_Format) {
         std::cerr << "unknown font file format" << std::endl;
-    } else if (error) {
-        std::cerr << "error reading font file" << std::endl;
+    } else {
+        if (error) {
+            std::cerr << "error reading font file" << std::endl;
+        }
     }
 
     return 0;
