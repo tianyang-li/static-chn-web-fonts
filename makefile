@@ -1,7 +1,7 @@
 CXX = g++
 INCLUDES = -I/usr/include/freetype2
-CXXFLAGS = $(INCLUDES) -ggdb -O0
-LIBS = -lfreetype
+CXXFLAGS = $(INCLUDES) -ggdb -O0 -g -Wall -W -ansi -pedantic -Wpointer-arith -Wwrite-strings -Wno-long-long -D_REENTRANT
+LIBS = -lfreetype -ldl -lm -L/usr/lib -licui18n -licuuc -licudata -ldl -lm
 CXX_FILES = $(wildcard *.cc)
 OBJS = $(patsubst %.cc,%.o,$(CXX_FILES))
 
@@ -13,7 +13,7 @@ static-font : $(OBJS)
 	$(CXX) $(CXXFLAGS) $(OBJS) $(LIBS) -o static-font
 	
 
-obj/%.o : src/%.cc
+%.o : %.cc
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<	
 
 
