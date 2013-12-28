@@ -1,7 +1,7 @@
 CXX = g++
-INCLUDES = -I/usr/include/freetype2
+INCLUDES = -I/usr/include/freetype2 -I/usr/include
 CXXFLAGS = $(INCLUDES) -ggdb -O0 -g -Wall -W -ansi -pedantic -Wpointer-arith -Wwrite-strings -Wno-long-long -D_REENTRANT
-LIBS = -lfreetype -ldl -lm -L/usr/lib -licui18n -licuuc -licudata -ldl -lm
+LIBS = -lfreetype -ldl -lm -L/usr/lib -licui18n -licuuc -licudata -ldl -lm -licuio
 CXX_FILES = $(wildcard *.cc)
 OBJS = $(patsubst %.cc,%.o,$(CXX_FILES))
 

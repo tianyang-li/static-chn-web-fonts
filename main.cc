@@ -1,16 +1,21 @@
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
+#include <vector>
+#include <fstream>
 
 #include <getopt.h>
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
+#include "unicode/unistr.h"
+#include "unicode/ustream.h"
+
 int main(int argc, char **argv) {
 
-    char *text_file_name;
-    char *font_file_name;
+    char *text_file_name = NULL;
+    char *font_file_name = NULL;
 
     int c;
 
@@ -48,6 +53,16 @@ int main(int argc, char **argv) {
         }
     }
 
+    if (font_file_name == NULL) {
+        std::cerr << "No font file!" << std::endl;
+        return 1;
+    }
+
+    if (text_file_name == NULL) {
+        std::cerr << "No text file!" << std::endl;
+        return 1;
+    }
+
     FT_Library library;
     FT_Face face;
 
@@ -68,6 +83,32 @@ int main(int argc, char **argv) {
             std::cerr << "error reading font file" << std::endl;
         }
     }
+
+    std::ifstream text_file(text_file_name, std::ios::binary);
+
+    std::vector<char> text_file_data_vector;
+
+    while (text_file.good()) {
+        char c = text_file.get();
+        if (text_file.good()) {
+            text_file_data_vector.push_back(c);
+        }
+    }
+    text_file.close();
+
+    char *text_file_data_char = new char[text_file_data_vector.size() + 1];
+    text_file_data_char[text_file_data_vector.size()] = '\0';
+
+    for (int i = 0; i != int(text_file_data_vector.size()); ++i) {
+        text_file_data_char[i] = text_file_data_vector[i];
+    }
+
+    icu::UnicodeString text_file_data = icu::UnicodeString::fromUTF8(
+            text_file_data_char);
+
+    delete[] text_file_data_char;
+
+    std::cout << text_file_data;
 
     return 0;
 }
