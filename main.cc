@@ -11,6 +11,7 @@
 
 #include "unicode/unistr.h"
 #include "unicode/ustream.h"
+#include "unicode/schriter.h"
 
 int main(int argc, char **argv) {
 
@@ -108,7 +109,11 @@ int main(int argc, char **argv) {
 
     delete[] text_file_data_char;
 
-    std::cout << text_file_data;
+    icu::StringCharacterIterator text_it(text_file_data);
+    for (text_it.setToStart(); text_it.hasNext();) {
+        UChar32 c = text_it.next32PostInc();
+        std::cout << icu::UnicodeString(c);
+    }
 
     return 0;
 }
