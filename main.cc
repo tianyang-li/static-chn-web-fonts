@@ -113,6 +113,12 @@ int main(int argc, char **argv) {
     for (text_it.setToStart(); text_it.hasNext();) {
         UChar32 c = text_it.next32PostInc();
         std::cout << icu::UnicodeString(c);
+
+        FT_UInt glyph_index = FT_Get_Char_Index(face, FT_ULong(c));
+        error = FT_Load_Glyph(face, glyph_index, FT_LOAD_DEFAULT);
+        if (error) {
+            std::cerr << "glyph for " << int(c) << " not found" << std::endl;
+        }
     }
 
     return 0;
