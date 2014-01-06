@@ -71,17 +71,18 @@ int main(int argc, char **argv) {
 
     error = FT_Init_FreeType(&library);
     if (error) {
-        std::cerr << "font library init failed at " << __FILE__ << " "
-                << __LINE__ << std::endl;
+        std::cerr << "font library init failed" << std::endl;
         return 1;
     }
 
     error = FT_New_Face(library, font_file_name, 0, &face);
     if (error == FT_Err_Unknown_File_Format) {
         std::cerr << "unknown font file format" << std::endl;
+        return 1;
     } else {
         if (error) {
             std::cerr << "error reading font file" << std::endl;
+            return 1;
         }
     }
 
@@ -110,6 +111,13 @@ int main(int argc, char **argv) {
     delete[] text_file_data_char;
 
     icu::StringCharacterIterator text_it(text_file_data);
+
+    error = FT_Select_Charmap(face, FT_ENCODING_UNICODE);
+    if (error) {
+        std::cerr << "can't select unicode charmap" << std::endl;
+        return 1;
+    }
+
     for (text_it.setToStart(); text_it.hasNext();) {
         UChar32 c = text_it.next32PostInc();
         std::cout << icu::UnicodeString(c);
