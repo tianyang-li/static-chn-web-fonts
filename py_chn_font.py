@@ -21,6 +21,8 @@ def main():
     if font_file == None:
         print >> sys.stderr, "no font file"
         sys.exit(1)
+    
+    chars = unicode("")
         
 
 if __name__ == '__main__':
