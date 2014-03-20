@@ -38,6 +38,8 @@ def main():
     
     ft_out = fontforge.font()
     ft_out.fontname = font.fontname
+    ft_out.familyname = font.familyname
+    ft_out.fullname = font.fullname
     ft_out.encoding = font.encoding
     
     for c in chars:
@@ -54,6 +56,9 @@ def main():
         print
     
     ft_out.save("partial.ttf")
+    print ft_out.fontname
+    print ft_out.familyname
+    print ft_out.fullname
     
     font.close()
     ft_out.close()
