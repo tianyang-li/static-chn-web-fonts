@@ -5,6 +5,8 @@ import sys
 import getopt
 import codecs
 
+import fontforge
+
 
 def main():
     try:
@@ -32,8 +34,30 @@ def main():
                 chars.add(c)
         f.close()
     
+    font = fontforge.open(font_file)
     
-        
+    ft_out = fontforge.font()
+    ft_out.fontname = font.fontname
+    ft_out.encoding = font.encoding
+    
+    for c in chars:
+        try:
+            uc = font[ord(c)]
+            print ord(c),
+            font.selection.select(uc)
+            font.copy()
+            ft_out.selection.select(uc)
+            ft_out.paste()
+        except TypeError:
+            print "not found",
+            pass
+        print
+    
+    ft_out.save("partial.ttf")
+    
+    font.close()
+    ft_out.close()
+    
 
 if __name__ == '__main__':
     main()
