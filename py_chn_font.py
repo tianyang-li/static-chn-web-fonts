@@ -55,7 +55,7 @@ def main():
             pass
         print
     
-    ft_out.save("partial.ttf")
+    ft_out.generate("partial.ttf")
     print ft_out.fontname
     print ft_out.familyname
     print ft_out.fullname
